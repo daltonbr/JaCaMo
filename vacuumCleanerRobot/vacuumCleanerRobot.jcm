@@ -16,6 +16,7 @@ mas vacuumCleanerRobot {
 
 	//agent robot : robot.asl
 	agent god : roomCreator.asl
+    agent robot0 : robot.asl
     
     // agent source path
     asl-path: src/agt

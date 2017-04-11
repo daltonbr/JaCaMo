@@ -8,9 +8,11 @@
 
 /* Plans */
 
-+!start : true <- .print("God is here");
- 				  .makeArtifact("rooms", "vacuumCleanerRobot.Rooms", [4], ID);
-         		  focus(ID).
++!start : true <- .print("Creating Room");
+ 				  makeArtifact("Room", "vacuumCleanerRobot.Room", [5,6], ID);
+ 				  focus(ID);
+ 				  // Start the robots
+ 				  .broadcast(ID, start).
 -!start.
 
 { include("$jacamoJar/templates/common-cartago.asl") }

@@ -1,7 +1,7 @@
 // Agent robot in project vacuumCleanerRobot
 
 /* Initial beliefs and rules */
-direction(right).
+//direction(right).
 
 /* Initial goals */
 
@@ -9,28 +9,26 @@ direction(right).
 
 /* Plans */
 
-+!start : 
-         true <- makeArtifact("rooms", "vacuumCleanerRobot.Rooms", [30], ID);
-         focus(ID);
-         !searchTrash.
++!start[source(src)] : .println(src, " has started a robot!"). 
+          				//!searchTrash.
                   
-+!searchTrash <- .drop_all_intentions;
-                 !move;
-                 .wait(1000);
-                 !searchTrash.
-
-+!move : at(X) & direction(right) <- goRight.
-        
-+!move : at(X) & direction(left) <- goLeft.
-                           
-+dirty : at(X) <- 
-        .println("Cleaning room ", X);
-        clean.     
-        
-+border : direction(left) <- -+direction(right).
-+border : direction(right) <- -+direction(left).
-
-+arrive : at(X) <- .println("Moving to room ", X).
+//+!searchTrash <- .drop_all_intentions;
+//                 !move;
+//                 .wait(1000);
+//                 !searchTrash.
+//
+//+!move : at(X) & direction(right) <- goRight.
+//        
+//+!move : at(X) & direction(left) <- goLeft.
+//                           
+//+dirty : at(X) <- 
+//        .println("Cleaning room ", X);
+//        clean.     
+//        
+//+border : direction(left) <- -+direction(right).
+//+border : direction(right) <- -+direction(left).
+//
+//+arrive : at(X) <- .println("Moving to room ", X).
 
 { include("$jacamoJar/templates/common-cartago.asl") }
 { include("$jacamoJar/templates/common-moise.asl") }

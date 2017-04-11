@@ -11,17 +11,17 @@ public class Rooms extends Artifact {
 	//private int robotAt = 0;
 	private Random rnd = new Random(System.currentTimeMillis());	
 	
-	void init(int roomWidth, int roomHeight) {
-		dirtyRoom = new boolean[roomWidth][roomHeight];
-		defineObsProperty("at", 0);
+	public void init() {
+		//dirtyRoom = new boolean[][];
+		//defineObsProperty("at", 0);
+		System.out.println("Rooms::Init()");
+//		for (int x = 0; x < roomWidth; roomWidth++) {
+//			for (int y = 0; y < roomHeight; roomHeight++) {
+//				dirtyRoom[x][y] = false;
+//			}
+//		}
 		
-		for (int x = 0; x < roomWidth; roomWidth++) {
-			for (int y = 0; y < roomHeight; roomHeight++) {
-				dirtyRoom[x][y] = false;
-			}
-		}
-		
-		execInternalOp("run");
+//		execInternalOp("run");
 	}
 	
 	@INTERNAL_OPERATION
