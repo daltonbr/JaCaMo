@@ -74,7 +74,7 @@ public class Rooms extends Artifact {
 //	}
 //	
 	@OPERATION
-	void clean(int x, int y) {
+	void cleanTile(int x, int y) {
 		if (dirtyRoom[x][y])
 			dirtyRoom[x][y] = false;
 		else

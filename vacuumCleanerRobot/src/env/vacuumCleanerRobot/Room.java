@@ -11,17 +11,20 @@ public class Room extends Artifact {
 	boolean isAccessible[][] = null;
 	boolean isDirty[][] = null;
 	boolean hasRobot[][] = null;
-	//private int robotAt = 0;
+	
+	// Robot will start at (0,0)
+	private int[] robotAt = {0,0};
 	private Random rnd = new Random(System.currentTimeMillis());	
 	
 	public void init(int roomWidth, int roomHeight) {
 		System.out.println("Rooms::Init() - Creating a room " + roomWidth + "x" + roomHeight);
-		
+
 		isDirty = new boolean[roomWidth][roomHeight];
 		isAccessible = new boolean[roomWidth][roomHeight];
 		hasRobot = new boolean[roomWidth][roomHeight];
 				
-		//defineObsProperty("at", 0);
+		defineObsProperty("at", robotAt);
+		
 		for (int x = 0; x < roomWidth; roomWidth++) {
 			for (int y = 0; y < roomHeight; roomHeight++) {
 				isDirty[x][y] = false;
@@ -29,12 +32,12 @@ public class Room extends Artifact {
 				hasRobot[x][y] = false;
 			}
 		}
-	
+		
 		execInternalOp("randomDirtySpawn");
 	}
 	
 	@INTERNAL_OPERATION
-	// method to spawn a dirty in some tile at our room (70% chance) - Hardcoded for now
+	// method to spawn a dirty in some tile at our room (70% chance) - Hardcoded :(
 	void randomDirtySpawn() {
 		while(true)
 		{
@@ -44,7 +47,7 @@ public class Room extends Artifact {
 				System.out.println("Dirty is at: " + xRandom + " x " + yRandom);
 				isDirty[xRandom][yRandom] = true;
 			}
-			await_time(4000);
+			await_time(1000);
 		}
 	}
 	
@@ -78,49 +81,76 @@ public class Room extends Artifact {
 	}
 	
 	
-//	@OPERATION
-//	void goLeft() {
-//		if(this.robotAt - 1 >= 0)
-//		{
-//			this.robotAt--;
-//			getObsProperty("at").updateValue(this.robotAt);
-//			signal("arrive");
-//			if(dirtyRoom[this.robotAt])
-//				signal("dirty");
-//		}
-//		else
-//			signal("border");
-//	}
-//	
-//	@OPERATION
-//	void goRight() {
-//		if(this.robotAt + 1 < dirtyRoom.length)
-//		{
-//			this.robotAt++;
-//			getObsProperty("at").updateValue(this.robotAt);
-//			signal("arrive");
-//			if(dirtyRoom[this.robotAt])
-//				signal("dirty");
-//		}
-//		else
-//			signal("border");
-//	}
-//	
 	@OPERATION
-	void clean(int x, int y) {
-		
-		// Out-of-bound checking
-		if (x < 0 || y < 0 || x > isDirty[0].length-1 || y > isDirty[1].length -1)
+	void goLeft() {
+		if(robotAt[0] - 1 >= 0)
 		{
-			//TODO throw a formal exception?
-			System.out.print("Internal Exception: Index out of bounds! Room()::clean()");
-			return;
+			robotAt[0]--;
+			getObsProperty("at").updateValue(this.robotAt);
+			signal("arrive");
+			if (isDirty[robotAt[0]] [robotAt[1]])
+				signal("dirty");
+			else
+				signal("noDirty");
 		}
+		else
+			signal("horizontalBorder");
+	}
+	
+	@OPERATION
+	void goRight() {
+		if(robotAt[0] + 1 < isDirty.length)
+		{
+			robotAt[0]++;
+			getObsProperty("at").updateValue(robotAt);
+			signal("arrive");
+			if (isDirty[robotAt[0]] [robotAt[1]])
+				signal("dirty");
+			else
+				signal("noDirty");
+		}
+		else
+			signal("horizontalBorder");
+	}
+	
+	@OPERATION
+	void goUp() {
+		if(robotAt[1] + 1 < isDirty[0].length)
+		{
+			robotAt[1]++;
+			getObsProperty("at").updateValue(robotAt);
+			signal("arrive");
+			if (isDirty[robotAt[0]] [robotAt[1]])
+				signal("dirty");
+			else
+				signal("noDirty");
+		}
+		else
+			signal("verticalBorder");
+	}
+	
+	@OPERATION
+	void goDown() {
+		if(robotAt[1] - 1 >= 0)
+		{
+			robotAt[1]--;
+			getObsProperty("at").updateValue(robotAt);
+			signal("arrive");
+			if (isDirty[robotAt[0]] [robotAt[1]])
+				signal("dirty");
+			else
+				signal("noDirty");
+		}
+		else
+			signal("verticalBorder");
+	}
 
-		if (isDirty[x][y])
-			isDirty[x][y] = false;
+	@OPERATION
+	void clean() {
+		
+		if (isDirty[robotAt[0]] [robotAt[1]])
+			isDirty[robotAt[0]] [robotAt[1]] = false;
 		else
 			signal("noDirty");
 	}
-	
 }

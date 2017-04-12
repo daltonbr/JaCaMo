@@ -9,11 +9,12 @@
 /* Plans */
 
 +!start : true <- .print("Creating Room");
- 				  makeArtifact("Room", "vacuumCleanerRobot.Room", [5,6], ID);
+ 				  makeArtifact("Room", "vacuumCleanerRobot.Room", [4,5], ID);
  				  focus(ID);
  				  // Start the robots
- 				  .broadcast(ID, start).
+ 				  .broadcast(tell, activateRobot).
 -!start.
+
 
 { include("$jacamoJar/templates/common-cartago.asl") }
 { include("$jacamoJar/templates/common-moise.asl") }
